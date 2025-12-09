@@ -1,54 +1,57 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Ahorrista – React + TypeScript Hackathon (2h)
 
-Currently, two official plugins are available:
+Frontend SPA built in **2 hours** for the “Ahorrista” hackathon.  
+The app helps young Peruvians visualize and control their personal expenses, consuming an existing REST API efficiently with **React + TypeScript**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 1. What the app does
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 🔐 **Auth with JWT**
+  - Register and login against `/authentication/register` and `/authentication/login`
+  - Stores the JWT and sends it as `Authorization: Bearer <token>` in protected calls
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- 💰 **Expenses**
+  - Shows **monthly expense summary by category** (from `/expenses_summary`)
+  - Loads **detailed expenses only when the user clicks a category**  
+    → efficient API usage for +10,000 expenses/user (`/expenses/detail`)
+  - Allows creating and deleting expenses (`POST /expenses`, `DELETE /expenses/:id`)
+  - Uses `/expenses_category` to list categories
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- 🎯 **Savings goals**
+  - List, create and update monthly goals via `/goals` (GET/POST/PATCH)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 2. Key implementation points
+
+- **Single Page Application (SPA)** with React + TypeScript
+- **API consumption principle**:
+  - First load: only monthly summary
+  - On click: load detail for that category/month
+- **State management** with React hooks (and simple lifting of state between components)
+- **UI/UX** focused on:
+  - Clear login/register flow
+  - Dashboard with monthly summary and category cards
+  - Detail view with list of expenses and actions
+  - Simple section for viewing and editing goals
+
+---
+
+## 3. Tech stack
+
+- React
+- TypeScript
+- Fetch/axios for REST calls
+- JWT handling on the client (token storage + header injection)
+
+---
+
+## 4. Notes
+
+- Built under a **strict 2-hour time limit** in a small 3-team.
+- Focused on:
+  - Correct JWT flow
+  - Efficient API usage (lazy loading of details)
+  - Clean component structure and basic TypeScript typing.
